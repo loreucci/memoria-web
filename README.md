@@ -1,0 +1,1 @@
+# Memoria: a photo manager
