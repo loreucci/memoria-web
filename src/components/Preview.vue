@@ -10,7 +10,7 @@ function getPreviewSize() {
 const imgurl = ref('')
 
 onMounted(async () => {
-    const res = await fetch("http://localhost:3000/albums/" + props.album_id + "/thumbnail/" + props.photo_id + "?size=" + props.preview_size)
+    const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.album_id + "/thumbnail/" + props.photo_id + "?size=" + props.preview_size)
     imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
 })
 </script>
