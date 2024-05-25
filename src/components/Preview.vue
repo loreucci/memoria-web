@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
     albumId: {
@@ -22,10 +22,12 @@ function getPreviewSize() {
 
 const imgurl = ref('')
 
-onMounted(async () => {
+watch(props, async (_newValue, _oldValue) => {
     const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/thumbnail/" + props.photoId + "?size=" + props.previewSize)
     imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
-})
+},
+{immediate: true})
+
 </script>
 
 <template>

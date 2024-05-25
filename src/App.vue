@@ -1,7 +1,19 @@
 <script setup>
-import Preview from './components/Preview.vue'
+import { ref } from 'vue'
+import Gallery from './components/Gallery.vue'
+
+const albumId = ref("1")
+
+function changeAlbum() {
+    if (albumId.value == "1") {
+        albumId.value = "0";
+    } else {
+      albumId.value = "1";
+    }
+}
 </script>
 
 <template>
-  <Preview v-for="n in 10" :key="n" album-id="1" :photo-id="n-1"/>
+    <button @click="changeAlbum">Change album (now: {{ albumId }})</button><br>
+    <Gallery :album-id="albumId"/>
 </template>
