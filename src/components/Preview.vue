@@ -1,16 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const props = defineProps(['album_id', 'photo_id', 'preview_size'])
+const props = defineProps({
+    albumId: {
+        type: String,
+        required: true
+    },
+    photoId: {
+        type: Number,
+        required: true
+    },
+    previewSize: {
+        type: Number,
+        default: 200,
+    },
+})
 
 function getPreviewSize() {
-    return (props.preview_size + 6) + "px"
+    return (props.previewSize + 6) + "px"
 }
 
 const imgurl = ref('')
 
 onMounted(async () => {
-    const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.album_id + "/thumbnail/" + props.photo_id + "?size=" + props.preview_size)
+    const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/thumbnail/" + props.photoId + "?size=" + props.previewSize)
     imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
 })
 </script>
