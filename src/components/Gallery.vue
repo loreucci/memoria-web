@@ -9,10 +9,10 @@ const props = defineProps({
     }
 })
 
-const albumData = ref(false)
+const albumData = ref(null)
 
 watch(props, async (_newValue, _oldValue) => {
-    albumData.value = false
+    albumData.value = null
     const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId)
     const res_data = await res.json()
     albumData.value = {

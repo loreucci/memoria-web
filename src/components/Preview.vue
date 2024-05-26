@@ -20,7 +20,7 @@ function getPreviewSize() {
     return (props.previewSize + 6) + "px"
 }
 
-const imgurl = ref('')
+const imgurl = ref(null)
 
 watch(props, async (_newValue, _oldValue) => {
     const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/thumbnail/" + props.photoId + "?size=" + props.previewSize)
@@ -32,11 +32,11 @@ watch(props, async (_newValue, _oldValue) => {
 
 <template>
     <div class="preview">
-    <template v-if="imgurl == ''">
-        <p>Loading...</p>
+    <template v-if="imgurl">
+        <img :src="imgurl"/>
     </template>
     <template v-else>
-        <img :src="imgurl"/>
+        <p>Loading...</p>
     </template>
 </div>
 </template>
