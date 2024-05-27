@@ -1,8 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
 
-defineEmits(['previewClicked'])
-
 const props = defineProps({
     albumId: {
         type: String,
@@ -11,15 +9,17 @@ const props = defineProps({
     photoId: {
         type: Number,
         required: true
-    },
-    previewSize: {
-        type: Number,
-        default: 200,
-    },
+    }
 })
 
-function getPreviewSize() {
-    return (props.previewSize + 6) + "px"
+const photoSize = 500
+
+function getDivSize() {
+    return (photoSize + 6) + "px"
+}
+
+function getPhotoSize() {
+    return photoSize + "px"
 }
 
 const imgurl = ref(null)
@@ -27,7 +27,8 @@ const imgurl = ref(null)
 watch(
     props,
     async (_newValue, _oldValue) => {
-        const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/thumbnail/" + props.photoId + "?size=" + props.previewSize)
+        imgurl.value = null
+        const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/photos/" + props.photoId)
         imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
     },
     {immediate: true}
@@ -36,7 +37,7 @@ watch(
 </script>
 
 <template>
-    <div class="preview" @click="$emit('previewClicked', props.photoId)">
+    <div class="photo">
         <template v-if="imgurl">
             <img :src="imgurl"/>
         </template>
@@ -47,11 +48,11 @@ watch(
 </template>
 
 <style scoped>
-div.preview {
+div.photo {
     margin: 5px;
     padding: 2px;
-    width: v-bind('getPreviewSize()');
-    height: v-bind('getPreviewSize()');
+    width: v-bind('getDivSize()');
+    height: v-bind('getDivSize()');
     border: solid 1px;
     align-content: center;
 }
@@ -59,5 +60,7 @@ img {
     margin-left: auto;
     margin-right: auto;
     display: block;
+    max-width: v-bind('getPhotoSize()');
+    max-height: v-bind('getPhotoSize()');
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import Preview from './Preview.vue'
+import Photo from './Photo.vue'
 
 const props = defineProps({
     albumId: {
@@ -10,25 +11,45 @@ const props = defineProps({
 })
 
 const albumData = ref(null)
+const currentPhoto = ref(null)
 
-watch(props, async (_newValue, _oldValue) => {
+function reset() {
     albumData.value = null
-    const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId)
-    const res_data = await res.json()
-    albumData.value = {
-        albumName: res_data.name,
-        albumId: props.albumId,
-        albumSize: res_data.num_photos,
-    }
-},
-{immediate: true})
+    currentPhoto.value = null
+}
+
+watch(
+    props,
+    async (_newValue, _oldValue) => {
+    reset()
+        const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId)
+        const res_data = await res.json()
+        albumData.value = {
+            albumName: res_data.name,
+            albumId: props.albumId,
+            albumSize: res_data.num_photos,
+        }
+    },
+    {immediate: true}
+)
+
+function previewClicked(photoId) {
+    console.log("clicked: " + photoId)
+    currentPhoto.value = photoId
+}
 
 </script>
 
 <template>
     <template v-if="albumData">
         <p>Album: {{ albumData.albumName }}</p>
-        <Preview v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1"/>
+        <template v-if="currentPhoto != null">
+            <Photo :album-id="albumData.albumId" :photo-id="currentPhoto"/>
+        </template>
+        <template v-else>
+            <p>Click on a photo</p>
+        </template>
+        <Preview v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1" @preview-clicked="previewClicked"/>
     </template>
     <template v-else>
         <p>Loading...</p>
