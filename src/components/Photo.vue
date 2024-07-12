@@ -26,10 +26,9 @@ const imgurl = ref(null)
 
 watch(
     props,
-    async (_newValue, _oldValue) => {
+    (_newValue, _oldValue) => {
         imgurl.value = null
-        const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/photos/" + props.photoId)
-        imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
+        imgurl.value = import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/photos/" + props.photoId
     },
     {immediate: true}
 )
