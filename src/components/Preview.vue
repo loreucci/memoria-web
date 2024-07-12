@@ -19,7 +19,7 @@ const props = defineProps({
 })
 
 function getPreviewSize() {
-    return (props.previewSize + 6) + "px"
+    return props.previewSize + "px"
 }
 
 const imgurl = ref(null)

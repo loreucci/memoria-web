@@ -49,9 +49,19 @@ function previewClicked(photoId) {
         <template v-else>
             <p>Click on a photo</p>
         </template>
-        <Preview v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1" @preview-clicked="previewClicked"/>
+        <div class="gallery">
+            <Preview v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1" @preview-clicked="previewClicked"/>
+        </div>
     </template>
     <template v-else>
         <p>Loading...</p>
     </template>
 </template>
+
+<style scoped>
+div.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    width: 100%;
+}
+</style>
