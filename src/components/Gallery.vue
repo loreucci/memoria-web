@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import Preview from './Preview.vue'
 import Photo from './Photo.vue'
+import Keyboard from './Keyboard.vue';
 
 const props = defineProps({
     albumId: {
@@ -34,14 +35,22 @@ watch(
 )
 
 function previewClicked(photoId) {
-    console.log("clicked: " + photoId)
     currentPhoto.value = photoId
+}
+
+function navigation(e) {
+    if (e.key == "ArrowRight" && currentPhoto.value < albumData.value.albumSize-1) {
+        currentPhoto.value++;
+    } else if (e.key == "ArrowLeft" && currentPhoto.value > 0) {
+        currentPhoto.value--;
+    }
 }
 
 </script>
 
 <template>
     <template v-if="albumData">
+        <Keyboard @keyup="navigation"></Keyboard>
         <p>Album: {{ albumData.albumName }}</p>
         <template v-if="currentPhoto != null">
             <Photo :album-id="albumData.albumId" :photo-id="currentPhoto"/>

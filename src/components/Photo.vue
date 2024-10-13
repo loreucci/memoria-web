@@ -33,12 +33,24 @@ watch(
     {immediate: true}
 )
 
+// fullscreen
+const photoimg = ref(null)
+
+function go_full(event) {
+    let elem = photoimg.value;
+    elem.requestFullscreen = elem.requestFullscreen || elem.mozRequestFullscreen
+          || elem.msRequestFullscreen || elem.webkitRequestFullscreen;
+    elem.requestFullscreen().then({}).catch(err => {
+      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+    });
+}
+
 </script>
 
 <template>
-    <div class="photo">
+    <div class="photo" @click="go_full">
         <template v-if="imgurl">
-            <img :src="imgurl"/>
+            <img :src="imgurl" ref="photoimg"/>
         </template>
         <template v-else>
             <p>Loading...</p>
