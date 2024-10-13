@@ -4,6 +4,8 @@ import Preview from './Preview.vue'
 import Photo from './Photo.vue'
 import Keyboard from './Keyboard.vue';
 
+defineEmits(['back'])
+
 const props = defineProps({
     albumId: {
         type: String,
@@ -49,6 +51,7 @@ function navigation(e) {
 </script>
 
 <template>
+    <button @click="$emit('back')">Change album</button><br>
     <template v-if="albumData">
         <Keyboard @keyup="navigation"></Keyboard>
         <p>Album: {{ albumData.albumName }}</p>
