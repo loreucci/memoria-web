@@ -22,13 +22,22 @@ function getPreviewSize() {
     return props.previewSize + "px"
 }
 
+function padNumber(v) {
+    return v.toString().padStart(2, "0")
+}
+
 const imgurl = ref(null)
+const timestamp = ref(null)
+const showTimestamp = ref(false)
 
 watch(
     props,
     async (_newValue, _oldValue) => {
         const res = await fetch(import.meta.env.VITE_MEMORIA_SERVER + "/albums/" + props.albumId + "/thumbnail/" + props.photoId + "?size=" + props.previewSize)
-        imgurl.value = "data:image/jpg;base64," + (await res.json()).imgdata
+        const photo = await res.json()
+        imgurl.value = "data:image/jpg;base64," + photo.imgdata
+        const d = new Date(photo.timestamp*1000)
+        timestamp.value = `${padNumber(d.getUTCDate())}/${padNumber(d.getUTCMonth()+1)}/${d.getUTCFullYear()} ${padNumber(d.getUTCHours())}:${padNumber(d.getUTCMinutes())}:${padNumber(d.getUTCSeconds())}`
     },
     {immediate: true}
 )
@@ -36,8 +45,11 @@ watch(
 </script>
 
 <template>
-    <div class="preview" @click="$emit('previewClicked', props.photoId)">
+    <div class="preview" @click="$emit('previewClicked', props.photoId)" @mouseenter="showTimestamp=true" @mouseleave="showTimestamp=false">
         <template v-if="imgurl">
+            <template v-if="showTimestamp">
+                <div class="timestamp">{{ timestamp }}</div>
+            </template>
             <img :src="imgurl"/>
         </template>
         <template v-else>
@@ -54,10 +66,18 @@ div.preview {
     height: v-bind('getPreviewSize()');
     border: solid 1px;
     align-content: center;
+    position: relative;
 }
 img {
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+.timestamp {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    background-color: black;
+    color: white;
 }
 </style>
