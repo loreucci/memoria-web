@@ -40,11 +40,29 @@ function thumbnailClicked(photoId) {
     currentPhoto.value = photoId
 }
 
-function navigation(e) {
-    if (e.key == "ArrowRight" && currentPhoto.value < albumData.value.albumSize-1) {
-        currentPhoto.value++;
-    } else if (e.key == "ArrowLeft" && currentPhoto.value > 0) {
+function goPreviusPhoto() {
+    if (currentPhoto.value > 0) {
         currentPhoto.value--;
+    }
+}
+
+function goNextPhoto() {
+    if (currentPhoto.value < albumData.value.albumSize-1) {
+        currentPhoto.value++;
+    }
+}
+
+function closePhoto() {
+    currentPhoto.value = null
+}
+
+function navigation(e) {
+    if (e.key == "ArrowRight") {
+        goNextPhoto()
+    } else if (e.key == "ArrowLeft") {
+        goPreviusPhoto()
+    } else if (e.key == "Escape") {
+        closePhoto()
     }
 }
 
@@ -56,7 +74,7 @@ function navigation(e) {
         <Keyboard @keyup="navigation"></Keyboard>
         <p>Album: {{ albumData.albumName }}</p>
         <template v-if="currentPhoto != null">
-            <Photo :album-id="albumData.albumId" :photo-id="currentPhoto"/>
+            <Photo :album-id="albumData.albumId" :photo-id="currentPhoto" @close-photo="closePhoto()" @previous-photo="goPreviusPhoto()" @next-photo="goNextPhoto()"/>
         </template>
         <template v-else>
             <p>Click on a photo</p>

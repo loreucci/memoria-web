@@ -68,6 +68,9 @@ div.thumbnail {
     align-content: center;
     position: relative;
 }
+div.thumbnail:hover {
+    background-color: rgba(0,0,0,0.2);
+}
 img {
     margin-left: auto;
     margin-right: auto;
