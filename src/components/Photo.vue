@@ -14,12 +14,6 @@ const props = defineProps({
     }
 })
 
-const photoSize = 500
-
-function getPhotoSize() {
-    return photoSize + "px"
-}
-
 const imgurl = ref(null)
 
 watch(
@@ -78,19 +72,18 @@ div.photo {
 }
 .content {
     position: relative;
-    background-color: #fefefe;
     margin: auto;
     padding: 0;
-    max-width: v-bind('getPhotoSize()');
-    max-height: v-bind('getPhotoSize()');
+    max-width: 90vw;
+    max-height: 90vh;
     display: inline-block;
 }
 img {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    max-width: v-bind('getPhotoSize()');
-    max-height: v-bind('getPhotoSize()');
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
 /* navigation */
