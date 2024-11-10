@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 
-defineEmits(['previewClicked'])
+defineEmits(['thumbnailClicked'])
 
 const props = defineProps({
     albumId: {
@@ -18,7 +18,7 @@ const props = defineProps({
     },
 })
 
-function getPreviewSize() {
+function getThumbnailSize() {
     return props.previewSize + "px"
 }
 
@@ -45,7 +45,7 @@ watch(
 </script>
 
 <template>
-    <div class="preview" @click="$emit('previewClicked', props.photoId)" @mouseenter="showTimestamp=true" @mouseleave="showTimestamp=false">
+    <div class="thumbnail" @click="$emit('thumbnailClicked', props.photoId)" @mouseenter="showTimestamp=true" @mouseleave="showTimestamp=false">
         <template v-if="imgurl">
             <template v-if="showTimestamp">
                 <div class="timestamp">{{ timestamp }}</div>
@@ -59,11 +59,11 @@ watch(
 </template>
 
 <style scoped>
-div.preview {
+div.thumbnail {
     margin: 5px;
     padding: 2px;
-    width: v-bind('getPreviewSize()');
-    height: v-bind('getPreviewSize()');
+    width: v-bind('getThumbnailSize()');
+    height: v-bind('getThumbnailSize()');
     border: solid 1px;
     align-content: center;
     position: relative;

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import Preview from './Preview.vue'
+import Thumbnail from './Thumbnail.vue'
 import Photo from './Photo.vue'
 import Keyboard from './Keyboard.vue';
 
@@ -36,7 +36,7 @@ watch(
     {immediate: true}
 )
 
-function previewClicked(photoId) {
+function thumbnailClicked(photoId) {
     currentPhoto.value = photoId
 }
 
@@ -62,7 +62,7 @@ function navigation(e) {
             <p>Click on a photo</p>
         </template>
         <div class="gallery">
-            <Preview v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1" @preview-clicked="previewClicked"/>
+            <Thumbnail v-for="n in albumData.albumSize" :key="n" :album-id="albumData.albumId" :photo-id="n-1" @thumbnail-clicked="thumbnailClicked"/>
         </div>
     </template>
     <template v-else>
