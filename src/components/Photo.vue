@@ -42,16 +42,16 @@ function goFullscreen(event) {
 <template>
     <div class="photo">
         <div class="content">
-            <span class="navigation close" @click="$emit('closePhoto')">&times;</span>
-            <span class="navigation full" @click="goFullscreen()">[]</span>
+            <span class="navigation close" @click="$emit('closePhoto')"><font-awesome-icon :icon="['fas', 'xmark']"/></span>
+            <span class="navigation full" @click="goFullscreen()"><font-awesome-icon :icon="['fas', 'expand']"/></span>
             <template v-if="imgurl">
                 <img :src="imgurl" ref="photoimg"/>
             </template>
             <template v-else>
                 <p>Loading...</p>
             </template>
-            <a class="navigation prev" @click="$emit('previousPhoto')">&#10094;</a>
-            <a class="navigation next" @click="$emit('nextPhoto')">&#10095;</a>
+            <a class="navigation prev" @click="$emit('previousPhoto')"><font-awesome-icon :icon="['fas', 'chevron-left']"/></a>
+            <a class="navigation next" @click="$emit('nextPhoto')"><font-awesome-icon :icon="['fas', 'chevron-right']"/></a>
         </div>
     </div>
 </template>
@@ -91,6 +91,7 @@ img {
     color: white;
     font-weight: bold;
     cursor: pointer;
+    font-size: 40px;
 }
 
 .navigation:hover,
@@ -103,7 +104,6 @@ img {
     position: absolute;
     top: 0px;
     right: 0px;
-    font-size: 40px;
     padding: 5px 16px;
     border-radius: 0 0 0 3px;
 }
@@ -117,7 +117,6 @@ img {
     width: auto;
     padding: 16px 20px;
     margin-top: -30px;
-    font-size: 20px;
 }
 .prev {
     left: 0;
